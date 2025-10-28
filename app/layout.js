@@ -1,4 +1,5 @@
 import './globals.css'
+import { ThemeProvider } from 'next-themes'
 
 export const metadata = {
   title: 'Apogeu CRM',
@@ -73,9 +74,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body suppressHydrationWarning>
-        <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
-          {children}
-        </div>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   )
