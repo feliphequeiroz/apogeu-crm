@@ -90,13 +90,16 @@ O Apogeu CRM é uma aplicação moderna de gerenciamento de relacionamento com o
 <div align="center">
 
 ### 🏠 Página Inicial
-![Home Page](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/home.png)
+![Home Page](https://apogeu.io/wp-content/uploads/2025/10/Apogeu-CRM-10-27-2025_10_58_PM.png)
 
 ### 📊 Dashboard
-![Dashboard](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/dashboard.png)
+![Dashboard](https://apogeu.io/wp-content/uploads/2025/10/Apogeu-CRM-10-27-2025_10_56_PM-scaled.png)
 
-### 📱 Versão Mobile
-![Mobile Version](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/mobile.png)
+### Criar Conta
+![Criar Conta](https://apogeu.io/wp-content/uploads/2025/10/Apogeu-CRM-10-27-2025_10_59_PM.png)
+
+### 📱 Versão Mobile (Evoluindo)
+![Mobile Version](https://apogeu.io/wp-content/uploads/2025/10/Apogeu-CRM-10-27-2025_11_06_PM.png)
 
 </div>
 
