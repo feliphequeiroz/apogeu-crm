@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Apogeu CRM Logo](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/logo.png)
+![Apogeu CRM Logo](public/logo.svg)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.6-black)](https://nextjs.org/)
@@ -109,6 +109,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 <div align="center">
 
-Feito com ❤️ por [Feliphe Queiroz](https://github.com/feliphequeiroz)
+Feito com ❤️ por [Feliphe Queiroz](https://feliphequeiroz.com/)
 
 </div>
