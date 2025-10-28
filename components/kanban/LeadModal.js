@@ -1,8 +1,8 @@
 'use client'
 
-import { X } from 'lucide-react'
+import { X, Edit2 } from 'lucide-react'
 
-export default function LeadModal({ lead, onClose }) {
+export default function LeadModal({ lead, onClose, onEdit }) {
   const getInitials = (name) => {
     return name.split(' ').map((n) => n[0]).join('').toUpperCase()
   }
@@ -28,24 +28,31 @@ export default function LeadModal({ lead, onClose }) {
         <div className="space-y-4 mb-6">
           <div>
             <p className="text-xs text-text-secondary font-semibold">EMAIL</p>
-            <p className="text-sm text-text-primary">{lead.email}</p>
+            <p className="text-sm text-text-primary">{lead.email || 'Não informado'}</p>
           </div>
           <div>
             <p className="text-xs text-text-secondary font-semibold">TELEFONE</p>
-            <p className="text-sm text-text-primary">{lead.phone}</p>
+            <p className="text-sm text-text-primary">{lead.phone || 'Não informado'}</p>
           </div>
           <div>
             <p className="text-xs text-text-secondary font-semibold">VALOR</p>
-            <p className="text-lg font-bold text-primary">R$ {lead.value.toLocaleString('pt-BR')}</p>
+            <p className="text-lg font-bold text-primary">R$ {lead.value?.toLocaleString('pt-BR') || '0'}</p>
           </div>
           <div>
             <p className="text-xs text-text-secondary font-semibold">PRÓXIMA AÇÃO</p>
-            <p className="text-sm text-amber-700 bg-amber-50 p-2 rounded">{lead.nextTask}</p>
+            <p className="text-sm text-amber-700 bg-amber-50 p-2 rounded">{lead.nextTask || 'Nenhuma'}</p>
           </div>
         </div>
 
         <div className="flex gap-3">
-          <button className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover font-semibold text-sm transition">
+          <button
+            onClick={() => {
+              onClose()
+              onEdit()
+            }}
+            className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover font-semibold text-sm transition flex items-center justify-center gap-2"
+          >
+            <Edit2 className="w-4 h-4" />
             Editar
           </button>
           <button
