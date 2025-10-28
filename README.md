@@ -1,0 +1,114 @@
+# 🚀 Apogeu CRM
+
+<div align="center">
+
+![Apogeu CRM Logo](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/logo.png)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.6-black)](https://nextjs.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-2.x-green)](https://supabase.io/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-API-blue)](https://openai.com/)
+
+</div>
+
+## 📋 Sobre o Projeto
+
+O Apogeu CRM é uma aplicação moderna de gerenciamento de relacionamento com o cliente (CRM) construída com tecnologias de ponta. Combina a potência do Next.js com a robustez do Supabase e a inteligência da API da OpenAI para criar uma experiência única de gestão de clientes.
+
+<div align="center">
+
+![Dashboard Preview](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/dashboard-preview.gif)
+
+</div>
+
+## ✨ Funcionalidades
+
+- 🔐 Autenticação segura com Supabase
+- 📊 Dashboard intuitivo
+- 🤖 Integração com IA para análise de dados
+- 📱 Design responsivo
+- 🌐 Suporte a múltiplos idiomas
+
+## 🛠 Tecnologias Utilizadas
+
+- **Frontend:**
+  - Next.js 15.5.6
+  - React 18.3.1
+  - Tailwind CSS
+  
+- **Backend:**
+  - Supabase
+  - OpenAI API
+  
+- **Autenticação:**
+  - NextAuth.js
+  - Supabase Auth
+
+## 🚀 Como Executar
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/feliphequeiroz/apogeu-crm.git
+   cd apogeu-crm
+   ```
+
+2. **Configure as variáveis de ambiente:**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Preencha as variáveis no arquivo `.env.local` com suas credenciais.
+
+3. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+
+4. **Execute o projeto:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Acesse a aplicação:**
+   - Local: [http://localhost:3000](http://localhost:3000)
+   - Rede: [http://192.168.15.6:3000](http://192.168.15.6:3000)
+
+## 📸 Screenshots
+
+<div align="center">
+
+### 🏠 Página Inicial
+![Home Page](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/home.png)
+
+### 📊 Dashboard
+![Dashboard](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/dashboard.png)
+
+### 📱 Versão Mobile
+![Mobile Version](https://raw.githubusercontent.com/feliphequeiroz/apogeu-crm/main/public/mobile.png)
+
+</div>
+
+## 🤝 Contribuindo
+
+Contribuições são sempre bem-vindas! Por favor, leia o [guia de contribuição](CONTRIBUTING.md) para saber como contribuir com o projeto.
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👨‍💻 Autor
+
+- [@feliphequeiroz](https://github.com/feliphequeiroz)
+
+## 🙏 Agradecimentos
+
+- [Next.js Team](https://nextjs.org/)
+- [Supabase Team](https://supabase.io/)
+- [OpenAI Team](https://openai.com/)
+
+---
+
+<div align="center">
+
+Feito com ❤️ por [Feliphe Queiroz](https://github.com/feliphequeiroz)
+
+</div>
