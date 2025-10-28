@@ -13,11 +13,11 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <meta charSet="utf-8" />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <div className="min-h-screen bg-white">
           {children}
         </div>

@@ -38,6 +38,8 @@ export default function LoginPage() {
       setError(signInError)
       setLoading(false)
     } else {
+      console.log('🎯 Redirecionando para dashboard...')
+      await new Promise(resolve => setTimeout(resolve, 500))
       router.push('/dashboard')
     }
   }

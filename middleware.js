@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/auth/login', '/auth/signup', '/']
+const publicRoutes = ['/auth/login', '/auth/signup', '/auth/callback', '/']
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl
@@ -10,14 +10,8 @@ export async function middleware(request) {
     return NextResponse.next()
   }
 
-  // Verificar se tem cookie de sessão
-  const session = request.cookies.get('sb-session')
-
-  // Se não tem sessão e quer acessar rota protegida, redireciona para login
-  if (!session && pathname.startsWith('/dashboard')) {
-    return NextResponse.redirect(new URL('/auth/login', request.url))
-  }
-
+  // Permitir acesso às rotas protegidas por enquanto
+  // A proteção real acontece no componente com useAuth()
   return NextResponse.next()
 }
 

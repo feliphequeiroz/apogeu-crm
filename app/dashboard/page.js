@@ -3,12 +3,16 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/auth/useAuth'
-import { LogOut, Loader } from 'lucide-react'
+import { Loader, Menu, X, Plus, Search, Filter } from 'lucide-react'
+import KanbanBoard from '@/components/kanban/KanbanBoard'
+import Sidebar from '@/components/kanban/Sidebar'
 
 export default function DashboardPage() {
-  const { user, loading, signOut } = useAuth()
+  const { user, loading } = useAuth()
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     setMounted(true)
@@ -33,63 +37,75 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-border-color">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-text-primary">Apogeu CRM</h1>
-            <p className="text-sm text-text-secondary">Dashboard</p>
+    <main className="min-h-screen bg-gray-50 flex">
+      {/* Sidebar */}
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} user={user} />
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <div className="bg-white border-b border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-3xl font-bold text-text-primary">Dashboard</h1>
+              <p className="text-text-secondary text-sm">Gerencie seu funil de vendas</p>
+            </div>
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-gray-100 rounded-lg md:hidden"
+            >
+              {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
-          <button
-            onClick={signOut}
-            className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition font-semibold"
-          >
-            <LogOut className="w-4 h-4" />
-            Logout
-          </button>
+
+          {/* Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <p className="text-xs text-gray-600 font-semibold">TOTAL LEADS</p>
+              <p className="text-2xl font-bold text-primary mt-1">12</p>
+            </div>
+            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+              <p className="text-xs text-gray-600 font-semibold">PIPELINE</p>
+              <p className="text-2xl font-bold text-green-600 mt-1">R$ 58.3k</p>
+            </div>
+            <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+              <p className="text-xs text-gray-600 font-semibold">FECHADOS</p>
+              <p className="text-2xl font-bold text-purple-600 mt-1">2</p>
+            </div>
+            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+              <p className="text-xs text-gray-600 font-semibold">CONVERSÃO</p>
+              <p className="text-2xl font-bold text-orange-600 mt-1">17%</p>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Conteúdo */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow p-8">
-          <h2 className="text-2xl font-bold text-text-primary mb-4">Bem-vindo! 👋</h2>
-          <p className="text-text-secondary mb-6">
-            Email: <strong>{user.email}</strong>
-          </p>
-
-          <div className="space-y-4">
-            <div className="p-4 bg-blue-50 border border-primary-light rounded-lg">
-              <h3 className="font-semibold text-primary mb-2">✨ Próximo passo</h3>
-              <p className="text-sm text-text-secondary">
-                Estamos construindo o Kanban de Leads aqui. Em breve você poderá:
-              </p>
-              <ul className="text-sm text-text-secondary mt-2 space-y-1 ml-4">
-                <li>📊 Ver todos seus leads em um kanban</li>
-                <li>💬 Acessar histórico de conversas</li>
-                <li>✅ Gerenciar follow-ups automáticos</li>
-              </ul>
+        {/* Controls */}
+        <div className="bg-white border-b border-gray-200 px-6 py-4">
+          <div className="flex gap-4 flex-col sm:flex-row">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Buscar leads..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+              />
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-gradient-to-br from-primary-light to-white p-6 rounded-lg border border-primary-light">
-                <div className="text-3xl mb-2">📊</div>
-                <p className="font-semibold text-text-primary">0 Leads</p>
-                <p className="text-sm text-text-secondary">Total de prospects</p>
-              </div>
-              <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-lg border border-blue-200">
-                <div className="text-3xl mb-2">🔄</div>
-                <p className="font-semibold text-text-primary">0 Em progresso</p>
-                <p className="text-sm text-text-secondary">Status consultoria</p>
-              </div>
-              <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-lg border border-green-200">
-                <div className="text-3xl mb-2">✅</div>
-                <p className="font-semibold text-text-primary">0 Clientes</p>
-                <p className="text-sm text-text-secondary">Vendas fechadas</p>
-              </div>
-            </div>
+            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2 font-semibold text-sm whitespace-nowrap">
+              <Filter className="w-4 h-4" />
+              Filtros
+            </button>
+            <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover flex items-center gap-2 font-semibold text-sm whitespace-nowrap">
+              <Plus className="w-4 h-4" />
+              Novo Lead
+            </button>
           </div>
+        </div>
+
+        {/* Kanban Board */}
+        <div className="flex-1 overflow-hidden">
+          <KanbanBoard searchTerm={searchTerm} />
         </div>
       </div>
     </main>
