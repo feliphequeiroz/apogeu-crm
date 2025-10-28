@@ -40,7 +40,19 @@ export default function EditLeadModal({ isOpen, onClose, lead, onLeadUpdated, on
     setError('')
 
     if (!formData.name.trim()) {
-      setError('Nome é obrigatório')
+      setError('Nome é obrigatório para edição')
+      return
+    }
+
+    // Validação de email, se fornecido
+    if (formData.email && !formData.email.includes('@')) {
+      setError('Email inválido')
+      return
+    }
+
+    // Validação de valor, se fornecido
+    if (formData.value && isNaN(parseFloat(formData.value))) {
+      setError('Valor deve ser um número válido')
       return
     }
 
@@ -103,7 +115,12 @@ export default function EditLeadModal({ isOpen, onClose, lead, onLeadUpdated, on
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-400 rounded-lg text-sm">
+          <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-lg text-sm flex items-start">
+            <div className="shrink-0 w-5 h-5 mr-3 mt-0.5">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
+              </svg>
+            </div>
             {error}
           </div>
         )}
