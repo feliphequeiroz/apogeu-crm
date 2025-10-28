@@ -2,7 +2,12 @@
 
 <div align="center">
 
-![Apogeu CRM Logo](public/logo.svg)
+<a href="https://apogeu.io">
+    <img src="https://apogeu.io/wp-content/uploads/2023/09/apogeu.io-design-tecnologia-e-marketing-azul-simbolo-clean.svg" alt="Apogeu Logo" width="180" />
+</a>
+
+<br/>
+<br/>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.6-black)](https://nextjs.org/)
@@ -10,6 +15,8 @@
 [![OpenAI](https://img.shields.io/badge/OpenAI-API-blue)](https://openai.com/)
 
 </div>
+
+![Apogeu CRM Preview](https://apogeu.io/wp-content/uploads/2025/10/apogeu-crm.webp)
 
 ## 📋 Sobre o Projeto
 
@@ -30,6 +37,12 @@ O Apogeu CRM é uma aplicação moderna de gerenciamento de relacionamento com o
 - 🌐 Suporte a múltiplos idiomas
 
 ## 🛠 Tecnologias Utilizadas
+
+<div align="center">
+    <img src="https://apogeu.io/wp-content/uploads/2024/05/cropped-Instagram-WhatsApp-Social-Profile-0001.png" alt="Apogeu Symbol" width="120" style="border-radius: 32px;" />
+</div>
+
+<br/>
 
 - **Frontend:**
   - Next.js 15.5.6
