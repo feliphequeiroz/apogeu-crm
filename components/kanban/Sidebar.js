@@ -19,9 +19,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, user }) {
     <>
       {/* Sidebar Fixo */}
       <div
-        className={`fixed left-0 top-0 h-screen bg-gray-900 dark:bg-gray-950 text-white border-r border-gray-800 dark:border-gray-900 flex flex-col transition-all duration-300 z-50 ${
+        className={`fixed left-0 top-0 h-screen bg-gray-900 dark:bg-gray-950 text-white border-r border-gray-800 dark:border-gray-900 flex flex-col z-50 ${
           sidebarOpen ? 'w-64' : 'w-20'
         }`}
+        style={{ transition: 'width 0.3s ease' }}
       >
         {/* Logo */}
         <div className="p-4 flex items-center justify-between border-b border-gray-800 dark:border-gray-900">
@@ -96,9 +97,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, user }) {
         </div>
       </div>
 
-      {/* Spacer - empurra o conteúdo pra direita */}
+      {/* Spacer - empurra o conteúdo pra direita. Add matching bg to avoid 1px seam during transition in dark mode */}
       <div
-        className={`transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'}`}
+        className={`transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} bg-gray-900 dark:bg-gray-950 pointer-events-none`}
       />
     </>
   )
