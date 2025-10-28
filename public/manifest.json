@@ -1,0 +1,41 @@
+{
+  "name": "Apogeu CRM",
+  "short_name": "CRM",
+  "description": "Gerencie seu funil de vendas com eficiência",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  
+  "icons": [
+    {
+      "src": "https://apogeu.io/wp-content/uploads/2024/11/cropped-1082-1-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://apogeu.io/wp-content/uploads/2024/11/cropped-1082-1-192x192.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://apogeu.io/wp-content/uploads/2024/11/cropped-1082-1-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  
+  "categories": ["productivity", "business"],
+  "screenshots": [
+    {
+      "src": "https://apogeu.io/wp-content/uploads/2024/11/cropped-1082-1-192x192.png",
+      "sizes": "540x720",
+      "type": "image/png"
+    }
+  ]
+}

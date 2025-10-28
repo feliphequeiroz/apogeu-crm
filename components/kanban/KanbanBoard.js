@@ -14,7 +14,7 @@ export default function KanbanBoard({
   setShowDetailModal,
   showEditModal,
   setShowEditModal,
-  onMoveToStage,
+  onChangeStatus,
   onLeadUpdated,
   onLeadDeleted,
   leadsLoading,
@@ -47,12 +47,13 @@ export default function KanbanBoard({
     const { card, fromStage } = draggedCard
 
     if (fromStage !== toStage) {
-      await onMoveToStage(card.id, fromStage, toStage)
+      await onChangeStatus(card.id, fromStage, toStage)
     }
 
     setDraggedCard(null)
   }
 
+  // Filtrar leads baseado no searchTerm
   const filteredLeads = (stageKey) => {
     return leads[stageKey].filter(
       (lead) =>
@@ -71,49 +72,60 @@ export default function KanbanBoard({
 
   return (
     <>
-      <div className="overflow-x-auto p-6">
+      <div className="overflow-x-auto p-6 h-full">
         <div className="flex gap-6 min-w-max">
-          {stages.map(({ key, title, color, borderColor }) => (
-            <div
-              key={key}
-              onDragOver={handleDragOver}
-              onDrop={(e) => handleDrop(e, key)}
-              className={`${color} rounded-lg border-2 ${borderColor} p-4 w-80 flex flex-col flex-shrink-0 min-h-96`}
-            >
-              <div className="mb-4 pb-4 border-b border-gray-300">
-                <h2 className="font-bold text-gray-900 text-sm">{title}</h2>
-                <p className="text-xs text-gray-600 mt-1">
-                  {filteredLeads(key).length} {filteredLeads(key).length === 1 ? 'lead' : 'leads'}
-                </p>
-              </div>
+          {stages.map(({ key, title, color, borderColor }) => {
+            const filtered = filteredLeads(key)
+            
+            // LÓGICA CORRIGIDA: mostrar coluna se:
+            // 1. Não há busca ativa (searchTerm vazio) OU
+            // 2. Há resultados nesta coluna
+            const shouldShow = !searchTerm || filtered.length > 0
 
-              <div className="flex-1 space-y-3 overflow-y-auto">
-                {filteredLeads(key).length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    <p className="text-xs">Vazio</p>
-                  </div>
-                ) : (
-                  filteredLeads(key).map((card) => (
-                    <LeadCard
-                      key={card.id}
-                      card={card}
-                      stageKey={key}
-                      onDragStart={handleDragStart}
-                      onClick={() => {
-                        setSelectedLead(card)
-                        setShowDetailModal(true)
-                      }}
-                      onEdit={() => {
-                        console.log('Lead sendo editado:', card) // Debug
-                        setSelectedLead(card)
-                        setShowEditModal(true)
-                      }}
-                    />
-                  ))
-                )}
+            if (!shouldShow) return null
+
+            return (
+              <div
+                key={key}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, key)}
+                className={`${color} rounded-lg border-2 ${borderColor} p-4 w-80 flex flex-col flex-shrink-0 min-h-96`}
+              >
+                <div className="mb-4 pb-4 border-b border-gray-300">
+                  <h2 className="font-bold text-gray-900 text-sm">{title}</h2>
+                  <p className="text-xs text-gray-600 mt-1">
+                    {filtered.length} {filtered.length === 1 ? 'lead' : 'leads'}
+                  </p>
+                </div>
+
+                <div className="flex-1 space-y-3 overflow-y-auto">
+                  {filtered.length === 0 ? (
+                    <div className="text-center py-8 text-gray-400">
+                      <p className="text-xs">Vazio</p>
+                    </div>
+                  ) : (
+                    filtered.map((card) => (
+                      <LeadCard
+                        key={card.id}
+                        card={card}
+                        stageKey={key}
+                        onDragStart={handleDragStart}
+                        onStatusChange={(newStage) => onChangeStatus(card.id, key, newStage)}
+                        onClick={() => {
+                          setSelectedLead(card)
+                          setShowDetailModal(true)
+                        }}
+                        onEdit={() => {
+                          setSelectedLead(card)
+                          setShowEditModal(true)
+                        }}
+                      />
+                    ))
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
