@@ -4,7 +4,6 @@ export const metadata = {
   title: 'Apogeu CRM',
   description: 'CRM para consultores de automação WhatsApp',
   
-  // Favicon configuração semântica completa
   icons: {
     icon: [
       {
@@ -28,7 +27,6 @@ export const metadata = {
     ],
   },
 
-  // Open Graph para redes sociais
   openGraph: {
     title: 'Apogeu CRM',
     description: 'CRM para consultores de automação WhatsApp',
@@ -41,7 +39,6 @@ export const metadata = {
     ],
   },
 
-  // Twitter Card
   twitter: {
     card: 'summary',
     title: 'Apogeu CRM',
@@ -61,16 +58,22 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <meta charSet="utf-8" />
-        {/* Meta tags PWA */}
+        
         <meta name="application-name" content="Apogeu CRM" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Apogeu CRM" />
-        {/* Manifest PWA */}
         <link rel="manifest" href="/manifest.json" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" 
+          rel="stylesheet" 
+        />
       </head>
       <body suppressHydrationWarning>
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
           {children}
         </div>
       </body>

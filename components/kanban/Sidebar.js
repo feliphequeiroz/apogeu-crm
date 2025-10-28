@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/auth/useAuth'
 import { X, Menu, ChevronDown } from 'lucide-react'
+import ThemeSettings from '@/components/ThemeSettings'
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen, user }) {
   const [showArchived, setShowArchived] = useState(false)
@@ -18,16 +19,16 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, user }) {
     <>
       {/* Sidebar Fixo */}
       <div
-        className={`fixed left-0 top-0 h-screen bg-gray-900 text-white border-r border-gray-800 flex flex-col transition-all duration-300 z-50 ${
+        className={`fixed left-0 top-0 h-screen bg-gray-900 dark:bg-gray-950 text-white border-r border-gray-800 dark:border-gray-900 flex flex-col transition-all duration-300 z-50 ${
           sidebarOpen ? 'w-64' : 'w-20'
         }`}
       >
         {/* Logo */}
-        <div className="p-4 flex items-center justify-between border-b border-gray-800">
+        <div className="p-4 flex items-center justify-between border-b border-gray-800 dark:border-gray-900">
           {sidebarOpen && <span className="font-bold text-lg">Apogeu CRM</span>}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-gray-800 rounded-lg transition"
+            className="p-2 hover:bg-gray-800 dark:hover:bg-gray-800 rounded-lg transition"
           >
             {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -39,21 +40,21 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, user }) {
             <span>📊</span>
             {sidebarOpen && 'Dashboard'}
           </div>
-          <div className="px-4 py-2 rounded-lg hover:bg-gray-800 flex items-center gap-3 text-sm cursor-pointer transition">
+          <div className="px-4 py-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-800 flex items-center gap-3 text-sm cursor-pointer transition">
             <span>👥</span>
             {sidebarOpen && 'Leads'}
           </div>
-          <div className="px-4 py-2 rounded-lg hover:bg-gray-800 flex items-center gap-3 text-sm cursor-pointer transition">
+          <div className="px-4 py-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-800 flex items-center gap-3 text-sm cursor-pointer transition">
             <span>📈</span>
             {sidebarOpen && 'Relatórios'}
           </div>
         </nav>
 
         {/* Archived Section */}
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4 border-t border-gray-800 dark:border-gray-900">
           <button
             onClick={() => setShowArchived(!showArchived)}
-            className="w-full px-4 py-2 rounded-lg hover:bg-gray-800 flex items-center gap-3 text-sm transition"
+            className="w-full px-4 py-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-800 flex items-center gap-3 text-sm transition"
           >
             <span>📦</span>
             {sidebarOpen && (
@@ -67,8 +68,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, user }) {
           </button>
         </div>
 
+        {/* Theme Settings */}
+        <div className={`px-2 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <ThemeSettings />
+        </div>
+
         {/* User */}
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4 border-t border-gray-800 dark:border-gray-900">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-sm font-bold flex-shrink-0">
               {user?.email?.[0]?.toUpperCase()}
@@ -76,13 +82,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, user }) {
             {sidebarOpen && (
               <div className="text-xs truncate">
                 <p className="font-semibold truncate">{user?.email?.split('@')[0]}</p>
-                <p className="text-gray-500 truncate">{user?.email}</p>
+                <p className="text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
               </div>
             )}
           </div>
           <button
             onClick={handleLogout}
-            className="w-full px-4 py-2 rounded-lg hover:bg-gray-800 flex items-center gap-3 text-sm transition text-red-400 hover:text-red-300"
+            className="w-full px-4 py-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-800 flex items-center gap-3 text-sm transition text-red-400 hover:text-red-300"
           >
             <span>🚪</span>
             {sidebarOpen && 'Logout'}
