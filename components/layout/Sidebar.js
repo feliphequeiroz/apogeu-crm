@@ -92,7 +92,7 @@ const SidebarArchived = ({ sidebarOpen }) => {
   )
 }
 
-const ThemeSettingsWrapper = ({ sidebarOpen, onSignOut, userName }) => {
+const SidebarFooter = ({ sidebarOpen, onSignOut, userName }) => {
   const userInitial = userName?.charAt(0).toUpperCase() || '?'
 
   return (
@@ -142,18 +142,11 @@ const ThemeSettingsWrapper = ({ sidebarOpen, onSignOut, userName }) => {
 }
 
 const SignOutModal = ({ isOpen, onConfirm, onCancel }) => {
-  // 📋 PADRÃO DE MODAL - Use este template para todos os modais de confirmação
-  // Regra: Sempre use ícones da lucide-react (não emojis)
-  // - Ícone destacado: color + rounded-full container (w-10 h-10)
-  // - Cor do ícone: alinhada ao propósito (red para destrutivas, blue para ações, etc)
-  // - Layout: ícone + título | descrição | botões em full-width (Cancelar | Ação Principal)
-  
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 max-w-sm mx-4">
-        {/* Cabeçalho: ícone destacado + título */}
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-red-100 dark:bg-red-950 rounded-full flex items-center justify-center flex-shrink-0">
             <LogOut className="w-6 h-6 text-red-600 dark:text-red-400" />
@@ -161,12 +154,10 @@ const SignOutModal = ({ isOpen, onConfirm, onCancel }) => {
           <h2 className="text-lg font-bold text-gray-900 dark:text-white">Confirmar saída</h2>
         </div>
 
-        {/* Descrição/conteúdo */}
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
           Você tem certeza que deseja sair da sua conta? Você precisará fazer login novamente para acessar o sistema.
         </p>
 
-        {/* Rodapé: botões full-width (Cancelar | Ação com ícone) */}
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={onCancel}
@@ -206,16 +197,18 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, user }) {
 
   return (
     <>
-      <div
+      <aside
         className={`fixed left-0 top-0 h-screen bg-gray-900 dark:bg-gray-950 text-white flex flex-col z-50 transition-[width] duration-300 shadow-lg will-change-auto border-r border-gray-800 dark:border-gray-900 ${
           sidebarOpen ? 'w-64' : 'w-20'
         }`}
+        role="navigation"
+        aria-label="Navegação principal"
       >
         <SidebarHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <SidebarNav sidebarOpen={sidebarOpen} />
         <SidebarArchived sidebarOpen={sidebarOpen} />
-        <ThemeSettingsWrapper sidebarOpen={sidebarOpen} onSignOut={handleSignOutClick} userName={user?.email || user?.name} />
-      </div>
+        <SidebarFooter sidebarOpen={sidebarOpen} onSignOut={handleSignOutClick} userName={user?.email || user?.name} />
+      </aside>
 
       <SignOutModal
         isOpen={showSignOutModal}
