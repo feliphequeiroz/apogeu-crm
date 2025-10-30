@@ -1,5 +1,11 @@
 import './globals.css'
 import { ThemeProvider } from 'next-themes'
+import { Open_Sans } from 'next/font/google'
+
+const openSans = Open_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata = {
   title: 'Apogeu CRM',
@@ -65,16 +71,10 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Apogeu CRM" />
         <link rel="manifest" href="/manifest.json" />
-
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" 
-          rel="stylesheet" 
-        />
       </head>
-      <body suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <body className={openSans.className} suppressHydrationWarning>
+        {/* ✅ CORRIGIDO: Adicionado disableTransitionOnChange para evitar flicker ao alternar temas */}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
             {children}
           </div>

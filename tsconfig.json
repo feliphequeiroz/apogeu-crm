@@ -40,7 +40,7 @@
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-  ],
+, "app/layout.js"  ],
   "exclude": [
     "node_modules"
   ]

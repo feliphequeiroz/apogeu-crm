@@ -105,7 +105,7 @@ export default function DashboardPage() {
       loadLeads()
       setLeadsLoaded(true)
     }
-  }, [user, mounted, leadsLoaded])
+  }, [user, mounted, leadsLoaded, loadLeads])
 
   const handleChangeStatus = useCallback(
     async (leadId, fromStage, toStage) => {
@@ -220,7 +220,10 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} user={user} />
 
-      <div className={`transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
+      {/* ✅ CORRIGIDO: Removida a borda-l, agora no Sidebar */}
+      <div className={`transition-[margin-left] duration-300 will-change-auto ${
+        sidebarOpen ? 'ml-64' : 'ml-20'
+      }`}>
         <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
