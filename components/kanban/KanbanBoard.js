@@ -2,19 +2,24 @@
 
 import { useState } from 'react'
 import LeadCard from './LeadCard'
-import LeadModal from './LeadModal'
+import LeadModal from '@/components/leads/LeadModal'
 import EditLeadModal from '@/components/leads/EditLeadModal'
-import ViewLeadModal from '@/components/leads/ViewLeadModal'
 
+/**
+ * KanbanBoard - Desktop
+ * 
+ * CORREÇÃO APLICADA:
+ * - Importou LeadModal para visualização
+ * - Adicionou state showViewModal separado de showEditModal
+ * - Criou handleViewLead que abre modal de visualização
+ * - Modal visualização tem botão editar que fecha view e abre edit
+ * - Click no card agora abre visualização, não edição direta
+ */
 export default function KanbanBoard({
   leads,
   searchTerm,
   selectedLead,
   setSelectedLead,
-  showDetailModal,
-  setShowDetailModal,
-  showEditModal,
-  setShowEditModal,
   onChangeStatus,
   onLeadUpdated,
   onLeadDeleted,
@@ -22,7 +27,7 @@ export default function KanbanBoard({
 }) {
   const [draggedCard, setDraggedCard] = useState(null)
   const [showViewModal, setShowViewModal] = useState(false)
-  const [viewingLead, setViewingLead] = useState(null)
+  const [showEditModal, setShowEditModal] = useState(false)
 
   const stages = [
     { key: 'lead', title: '📥 Lead Gerado', color: 'bg-blue-50 dark:bg-blue-950', borderColor: 'border-blue-300 dark:border-blue-800' },
@@ -56,21 +61,40 @@ export default function KanbanBoard({
     setDraggedCard(null)
   }
 
+  // Abre modal de VISUALIZAÇÃO (não edição)
   const handleViewLead = (lead) => {
-    setViewingLead(lead)
+    setSelectedLead(lead)
     setShowViewModal(true)
   }
 
-  const handleEditFromView = (lead) => {
+  // Abre modal de EDIÇÃO (via botão dentro do view ou ícone)
+  const handleEditLead = (lead) => {
     setSelectedLead(lead)
+    setShowViewModal(false) // Fecha view se estiver aberto
     setShowEditModal(true)
   }
 
+  const handleCloseViewModal = () => {
+    setShowViewModal(false)
+    setSelectedLead(null)
+  }
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false)
+    setSelectedLead(null)
+  }
+
+  /**
+   * Filtra leads por estágio com proteção
+   */
   const filteredLeads = (stageKey) => {
-    return leads[stageKey].filter(
+    const stageLeads = leads[stageKey] || []
+    const term = (searchTerm || '').toLowerCase()
+
+    return stageLeads.filter(
       (lead) =>
-        lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lead.company.toLowerCase().includes(searchTerm.toLowerCase())
+        lead.name.toLowerCase().includes(term) ||
+        lead.company.toLowerCase().includes(term)
     )
   }
 
@@ -88,7 +112,6 @@ export default function KanbanBoard({
         <div className="flex gap-6 min-w-max">
           {stages.map(({ key, title, color, borderColor }) => {
             const filtered = filteredLeads(key)
-            
             const shouldShow = !searchTerm || filtered.length > 0
 
             if (!shouldShow) return null
@@ -120,11 +143,8 @@ export default function KanbanBoard({
                         stageKey={key}
                         onDragStart={handleDragStart}
                         onStatusChange={(newStage) => onChangeStatus(card.id, key, newStage)}
-                        onView={() => handleViewLead(card)}
-                        onEdit={() => {
-                          setSelectedLead(card)
-                          setShowEditModal(true)
-                        }}
+                        onView={handleViewLead}
+                        onEdit={handleEditLead}
                       />
                     ))
                   )}
@@ -135,37 +155,20 @@ export default function KanbanBoard({
         </div>
       </div>
 
-      <ViewLeadModal
-        isOpen={showViewModal}
-        onClose={() => {
-          setShowViewModal(false)
-          setViewingLead(null)
-        }}
-        lead={viewingLead}
-        onEdit={handleEditFromView}
-      />
-
-      {showDetailModal && selectedLead && (
+      {/* Modal de Visualização */}
+      {showViewModal && selectedLead && (
         <LeadModal
           lead={selectedLead}
-          onClose={() => {
-            setShowDetailModal(false)
-            setSelectedLead(null)
-          }}
-          onEdit={() => {
-            setShowDetailModal(false)
-            setShowEditModal(true)
-          }}
+          onClose={handleCloseViewModal}
+          onEdit={() => handleEditLead(selectedLead)}
         />
       )}
 
+      {/* Modal de Edição */}
       {showEditModal && selectedLead && (
         <EditLeadModal
           isOpen={showEditModal}
-          onClose={() => {
-            setShowEditModal(false)
-            setSelectedLead(null)
-          }}
+          onClose={handleCloseEditModal}
           lead={selectedLead}
           onLeadUpdated={onLeadUpdated}
           onLeadDeleted={onLeadDeleted}

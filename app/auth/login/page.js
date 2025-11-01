@@ -135,13 +135,6 @@ function LoginComponent() {
               Criar conta
             </Link>
           </div>
-
-          {/* Demo credentials */}
-          <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-primary-light">
-            <p className="text-xs text-text-secondary font-semibold mb-2">🧪 Teste com:</p>
-            <p className="text-xs text-text-primary">Email: <code className="bg-white px-2 py-1 rounded">test@apogeu.com</code></p>
-            <p className="text-xs text-text-primary">Senha: <code className="bg-white px-2 py-1 rounded">123456</code></p>
-          </div>
         </div>
       </div>
     </main>
