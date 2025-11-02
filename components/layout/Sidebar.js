@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useAuth } from '@/lib/auth/useAuth'
-import { X, Menu, ChevronDown, LogOut } from 'lucide-react'
-import ThemeSettings from '@/components/ThemeSettings'
+import { X, ChevronDown, LogOut, PanelRightClose, PanelRightOpen } from 'lucide-react'
+import ThemeSettings from '@/components/ui/ThemeSettings'
 
 const SidebarHeader = ({ sidebarOpen, setSidebarOpen }) => (
   <div className="p-4 flex items-center justify-between border-b border-gray-800 dark:border-gray-900 min-h-16">
@@ -20,7 +20,7 @@ const SidebarHeader = ({ sidebarOpen, setSidebarOpen }) => (
         sidebarOpen ? '' : 'mx-auto'
       }`}
     >
-      {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      {sidebarOpen ? <PanelRightOpen className="w-5 h-5" /> : <PanelRightClose className="w-5 h-5" />}
     </button>
   </div>
 )
