@@ -36,6 +36,7 @@ export default function MobileLayout({
   onSearchClick,
   onMoreClick,
   onTasksClick,
+  onOpenPipelineCustomizer,
   children,
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -89,6 +90,7 @@ export default function MobileLayout({
         onSearchClick={onSearchClick}
         onMoreClick={onMoreClick}
         onTasksClick={onTasksClick}
+        onOpenPipelineCustomizer={onOpenPipelineCustomizer}
       />
 
       {/* Mobile Sidebar - Drawer lateral */}

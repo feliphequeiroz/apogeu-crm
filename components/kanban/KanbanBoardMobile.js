@@ -18,6 +18,7 @@ import LeadCounter from '@/components/ui/LeadCounter'
  */
 export default function KanbanBoardMobile({
   leads,
+  pipelineStages,
   selectedLead,
   setSelectedLead,
   onChangeStatus,
@@ -29,18 +30,15 @@ export default function KanbanBoardMobile({
   searchTerm,
   setSearchTerm,
 }) {
-  const [activeStage, setActiveStage] = useState('lead')
+  const [activeStage, setActiveStage] = useState(pipelineStages[0]?.name || '')
   const [showEditModal, setShowEditModal] = useState(false)
   const [modalMode, setModalMode] = useState('view') // 'view' | 'edit'
 
-  const stages = [
-    { key: 'lead', emoji: '🔥', fullName: 'Lead' },
-    { key: 'qualified', emoji: '✓', fullName: 'Qualificado' },
-    { key: 'diagnostic', emoji: '🔍', fullName: 'Diagnóstico' },
-    { key: 'proposal', emoji: '📋', fullName: 'Proposta' },
-    { key: 'negotiation', emoji: '💬', fullName: 'Negociação' },
-    { key: 'closed', emoji: '🤝', fullName: 'Fechado' },
-  ]
+  const stages = pipelineStages.map(stage => ({
+    key: stage.name,
+    emoji: stage.icon,
+    fullName: stage.name,
+  }));
 
   const stageLeads = leads[activeStage] || []
 

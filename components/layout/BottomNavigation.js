@@ -17,18 +17,19 @@
  * - onMoreClick: abre modal bottom "Em breve"
  * - onTasksClick: abre modal bottom "Tasks em breve"
  */
-export default function BottomNavigation({ 
-  activeTab, 
+export default function BottomNavigation({
+  activeTab,
   setActiveTab,
   onSearchClick,
   onMoreClick,
   onTasksClick,
-}) {
-  const tabs = [
+  onOpenPipelineCustomizer,
+}) {  const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'leads', label: 'Leads', icon: '👥' },
     { id: 'tasks', label: 'Tasks', icon: '✓' },
     { id: 'search', label: 'Busca', icon: '🔍' },
+    { id: 'pipeline', label: 'Pipeline', icon: '⚙️' }, // New tab
     { id: 'more', label: 'Mais', icon: '⋯' },
   ]
 
@@ -51,6 +52,12 @@ export default function BottomNavigation({
       return
     }
 
+    // Pipeline abre modal, não muda aba
+    if (tabId === 'pipeline') {
+      onOpenPipelineCustomizer()
+      return
+    }
+
     setActiveTab(tabId)
   }
 
@@ -61,7 +68,7 @@ export default function BottomNavigation({
           key={tab.id}
           onClick={() => handleTabClick(tab.id)}
           className={`flex flex-col items-center gap-1 px-2 py-2 rounded-lg transition ${
-            tab.id === 'search' || tab.id === 'more' || tab.id === 'tasks'
+            tab.id === 'search' || tab.id === 'more' || tab.id === 'tasks' || tab.id === 'pipeline'
               ? 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
               : activeTab === tab.id
               ? 'text-blue-600 dark:text-blue-400'

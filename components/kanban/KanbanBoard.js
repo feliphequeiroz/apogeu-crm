@@ -4,19 +4,11 @@ import { useState } from 'react'
 import LeadCard from './LeadCard'
 import LeadModal from '@/components/leads/LeadModal'
 import EditLeadModal from '@/components/leads/EditLeadModal'
+import { pipelineColors } from '@/lib/pipeline/constants'
 
-/**
- * KanbanBoard - Desktop
- * 
- * CORREÇÃO APLICADA:
- * - Importou LeadModal para visualização
- * - Adicionou state showViewModal separado de showEditModal
- * - Criou handleViewLead que abre modal de visualização
- * - Modal visualização tem botão editar que fecha view e abre edit
- * - Click no card agora abre visualização, não edição direta
- */
 export default function KanbanBoard({
   leads,
+  pipelineStages,
   searchTerm,
   selectedLead,
   setSelectedLead,
@@ -29,14 +21,15 @@ export default function KanbanBoard({
   const [showViewModal, setShowViewModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
 
-  const stages = [
-    { key: 'lead', title: '📥 Lead Gerado', color: 'bg-blue-50 dark:bg-blue-950', borderColor: 'border-blue-300 dark:border-blue-800' },
-    { key: 'qualified', title: '✓ Qualificado', color: 'bg-cyan-50 dark:bg-cyan-950', borderColor: 'border-cyan-300 dark:border-cyan-800' },
-    { key: 'diagnostic', title: '🔍 Diagnóstico', color: 'bg-purple-50 dark:bg-purple-950', borderColor: 'border-purple-300 dark:border-purple-800' },
-    { key: 'proposal', title: '📋 Proposta', color: 'bg-orange-50 dark:bg-orange-950', borderColor: 'border-orange-300 dark:border-orange-800' },
-    { key: 'negotiation', title: '💬 Negociação', color: 'bg-yellow-50 dark:bg-yellow-950', borderColor: 'border-yellow-300 dark:border-yellow-800' },
-    { key: 'closed', title: '🤝 Fechado', color: 'bg-green-50 dark:bg-green-950', borderColor: 'border-green-300 dark:border-green-800' },
-  ]
+  const stages = pipelineStages.map(stage => {
+    const color = pipelineColors[stage.color] || pipelineColors.blue;
+    return {
+      key: stage.key || stage.name,
+      title: `${stage.icon} ${stage.name}`,
+      color: color.bg,
+      borderColor: color.border,
+    }
+  });
 
   const handleDragStart = (e, card, fromStage) => {
     setDraggedCard({ card, fromStage })
@@ -61,16 +54,14 @@ export default function KanbanBoard({
     setDraggedCard(null)
   }
 
-  // Abre modal de VISUALIZAÇÃO (não edição)
   const handleViewLead = (lead) => {
     setSelectedLead(lead)
     setShowViewModal(true)
   }
 
-  // Abre modal de EDIÇÃO (via botão dentro do view ou ícone)
   const handleEditLead = (lead) => {
     setSelectedLead(lead)
-    setShowViewModal(false) // Fecha view se estiver aberto
+    setShowViewModal(false)
     setShowEditModal(true)
   }
 
@@ -84,9 +75,6 @@ export default function KanbanBoard({
     setSelectedLead(null)
   }
 
-  /**
-   * Filtra leads por estágio com proteção
-   */
   const filteredLeads = (stageKey) => {
     const stageLeads = leads[stageKey] || []
     const term = (searchTerm || '').toLowerCase()
@@ -155,7 +143,6 @@ export default function KanbanBoard({
         </div>
       </div>
 
-      {/* Modal de Visualização */}
       {showViewModal && selectedLead && (
         <LeadModal
           lead={selectedLead}
@@ -164,7 +151,6 @@ export default function KanbanBoard({
         />
       )}
 
-      {/* Modal de Edição */}
       {showEditModal && selectedLead && (
         <EditLeadModal
           isOpen={showEditModal}

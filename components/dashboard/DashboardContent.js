@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useResponsive } from '@/hooks/useResponsive'
-import { debug } from '@/lib/debug' // ← IMPORTAR
+import { debug } from '@/lib/debug'
 import MobileLayout from '@/components/layout/MobileLayout'
 import DesktopLayout from '@/components/layout/DesktopLayout'
 import KanbanBoard from '@/components/kanban/KanbanBoard'
@@ -10,18 +10,20 @@ import KanbanBoardMobile from '@/components/kanban/KanbanBoardMobile'
 import MobileDashboardCards from '@/components/dashboard/MobileDashboardCards'
 import CreateLeadModal from '@/components/leads/CreateLeadModal'
 import EditLeadModal from '@/components/leads/EditLeadModal'
+import PipelineCustomizerModal from '@/components/pipeline/PipelineCustomizerModal'
+import { slugify } from '@/lib/utils'
 
 export default function DashboardContent({
   user,
   leads,
   setLeads,
+  pipelineStages,
   leadsLoading,
   onChangeStatus,
   onLeadUpdated,
   onLeadDeleted,
   onLeadCreated,
 }) {
-  // ===== STATE =====
   const isMobile = useResponsive()
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showSearchModal, setShowSearchModal] = useState(false)
@@ -32,8 +34,7 @@ export default function DashboardContent({
   const [showEditModal, setShowEditModal] = useState(false)
   const [editMode, setEditMode] = useState('view')
   const [activeTab, setActiveTab] = useState('leads')
-
-  // ===== HANDLERS ESTADO LOCAL =====
+  const [showPipelineCustomizerModal, setShowPipelineCustomizerModal] = useState(false)
 
   const handleChangeStatus = useCallback(
     async (leadId, fromStage, toStage) => {
@@ -44,7 +45,7 @@ export default function DashboardContent({
         setLeads((prev) => ({
           ...prev,
           [fromStage]: prev[fromStage].filter((c) => c.id !== leadId),
-          [toStage]: [...prev[toStage], { ...leadToMove, status: toStage }],
+          [toStage]: [...(prev[toStage] || []), { ...leadToMove, status: toStage }],
         }))
       }
 
@@ -90,30 +91,14 @@ export default function DashboardContent({
   }, [setLeads, onLeadDeleted])
 
   const handleLeadCreated = useCallback((newLead) => {
+    const status = newLead.status || pipelineStages[0]?.key || slugify(pipelineStages[0]?.name)
     setLeads((prev) => ({
       ...prev,
-      lead: [
-        {
-          id: newLead.id,
-          name: newLead.name,
-          company: newLead.company,
-          days: 0,
-          value: newLead.value_estimate || 0,
-          email: newLead.email,
-          phone: newLead.whatsapp_number,
-          nextTask: newLead.next_action,
-          status: 'lead',
-          created_at: new Date().toISOString(),
-          whatsapp_number: newLead.whatsapp_number,
-          value_estimate: newLead.value_estimate,
-          next_action: newLead.next_action,
-        },
-        ...prev.lead,
-      ],
+      [status]: [newLead, ...(prev[status] || [])],
     }))
     setShowCreateModal(false)
     onLeadCreated(newLead)
-  }, [setLeads, onLeadCreated])
+  }, [setLeads, onLeadCreated, pipelineStages])
 
   const handleSelectLeadFromSearch = useCallback((lead) => {
     setSelectedLead(lead)
@@ -145,13 +130,10 @@ export default function DashboardContent({
     setShowEditModal(true)
   }, [])
 
-  // ===== SEARCH HANDLER COM DEBUG =====
   const handleSearchChange = useCallback((value) => {
     debug.log('🔍 [DashboardContent] Search changed:', value)
     setSearchTerm(value)
   }, [])
-
-  // ===== RENDER MOBILE CONTENT =====
 
   const renderMobileContent = () => {
     if (activeTab === 'dashboard') {
@@ -187,10 +169,9 @@ export default function DashboardContent({
     )
   }
 
-  // ===== PROPS COMPARTILHADOS =====
-
   const kanbanProps = {
     leads,
+    pipelineStages,
     selectedLead,
     setSelectedLead,
     onChangeStatus: handleChangeStatus,
@@ -209,8 +190,6 @@ export default function DashboardContent({
     onLeadCreated: handleLeadCreated,
   }
 
-  // ===== MOBILE LAYOUT =====
-
   if (isMobile) {
     return (
       <MobileLayout 
@@ -220,6 +199,7 @@ export default function DashboardContent({
         onSearchClick={handleSearchClick}
         onMoreClick={handleMoreClick}
         onTasksClick={handleTasksClick}
+        onOpenPipelineCustomizer={() => setShowPipelineCustomizerModal(true)}
       >
         <div key={activeTab} className="h-full">
           {renderMobileContent()}
@@ -378,8 +358,6 @@ export default function DashboardContent({
     )
   }
 
-  // ===== DESKTOP LAYOUT =====
-
   debug.log('🖥️ [DashboardContent] Desktop render - searchTerm:', searchTerm)
 
   return (
@@ -389,6 +367,7 @@ export default function DashboardContent({
       setSearchTerm={handleSearchChange}
       leads={leads}
       onCreateLead={() => setShowCreateModal(true)}
+      onOpenPipelineCustomizer={() => setShowPipelineCustomizerModal(true)}
     >
       <KanbanBoard {...kanbanProps} />
 
@@ -420,6 +399,14 @@ export default function DashboardContent({
       >
         +
       </button>
+
+      {showPipelineCustomizerModal && (
+        <PipelineCustomizerModal
+          isOpen={showPipelineCustomizerModal}
+          onClose={() => setShowPipelineCustomizerModal(false)}
+          userId={user?.id}
+        />
+      )}
     </DesktopLayout>
   )
 }

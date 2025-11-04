@@ -1,6 +1,6 @@
 'use client'
 
-import { X, Search, Filter, Info } from 'lucide-react'
+import { X, Search, Filter, Info, Settings } from 'lucide-react'
 import { debug } from '@/lib/debug' // ← IMPORTAR
 import MainLayout from '@/components/layout/MainLayout'
 
@@ -10,6 +10,7 @@ export default function DesktopLayout({
   setSearchTerm,
   leads,
   onCreateLead,
+  onOpenPipelineCustomizer,
   children,
 }) {
   debug.log('📋 [DesktopLayout] Render - searchTerm:', searchTerm)
@@ -66,6 +67,15 @@ export default function DesktopLayout({
                 </button>
               )}
             </div>
+
+            <button
+              onClick={onOpenPipelineCustomizer}
+              className="px-4 py-2.5 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2 font-semibold text-sm whitespace-nowrap transition"
+              title="Customizar Pipeline"
+            >
+              <Settings className="w-4 h-4" />
+              Pipeline
+            </button>
 
             <button className="px-4 py-2.5 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2 font-semibold text-sm whitespace-nowrap transition">
               <Filter className="w-4 h-4" />
