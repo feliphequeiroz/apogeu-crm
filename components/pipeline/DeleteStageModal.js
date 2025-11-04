@@ -94,7 +94,7 @@ export default function DeleteStageModal({ isOpen, onClose, stage, stages, onSta
           )}
 
           <p className="text-sm text-gray-600 dark:text-gray-300">
-            Você está prestes a excluir o estágio "{stage.name}". Esta ação não pode ser desfeita.
+            Você está prestes a excluir o estágio &quot;{stage.name}&quot;. Esta ação não pode ser desfeita.
           </p>
 
           {otherStages.length > 0 && (
